@@ -30,4 +30,35 @@ class GameBoard {
             this.ship = false;
         }
     }
+    placeShip (row,col,direction,length) {
+        //row and col are coordinates of the top left position of the ship
+
+        //Check whether ship remains in bounds
+        if (direction === 'horizontal' && col+length> 10) {
+            return false
+        } else if (direction === 'vertical' && row+length > 10) {
+            return false
+        }
+
+        //Check whether ships would overlap
+        for (let i = 0; i < length; i++) {
+            if (direction === 'horizontal') {
+                if (this.board[row][col + i].ship) return false;
+            } else {
+                if (this.board[row + i][col].ship) return false;
+            }
+        }
+
+        //Actual ship placement
+        const ship = new Ship(length);
+        for (let i = 0; i < length; i++) {
+            if (direction === 'horizontal'){
+                this.board[row][col+i].ship = ship;
+            } else {
+                this.board[row+i][col].ship = ship;
+            }
+                
+        }
+        return true
+    }
 }
