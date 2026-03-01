@@ -24,12 +24,14 @@ class GameBoard {
             }
         }
     }
+
     static Position = class {
         constructor() {
             this.hit = false;
-            this.ship = false;
+            this.ship = null;
         }
     }
+    
     placeShip (row,col,direction,length) {
         //row and col are coordinates of the top left position of the ship
 
@@ -57,8 +59,22 @@ class GameBoard {
             } else {
                 this.board[row+i][col].ship = ship;
             }
-                
         }
         return true
+    }
+
+    receiveAttack(row, col) {
+        const position = this.board[row][col];
+        //Filter out double attacks
+        if (position.hit) {
+            return false;
+        }
+        //Proceed with attack
+        position.hit = true;
+        if (position.ship) {
+            position.ship.hit();
+            return true;
+        }
+        return true;
     }
 }
