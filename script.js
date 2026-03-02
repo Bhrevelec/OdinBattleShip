@@ -23,6 +23,7 @@ class GameBoard {
                 this.board[i].push(new GameBoard.Position())
             }
         }
+        this.sunkShip = 0;
     }
 
     static Position = class {
@@ -73,8 +74,20 @@ class GameBoard {
         position.hit = true;
         if (position.ship) {
             position.ship.hit();
+            if (position.ship.isSunk()) {
+                this.sinkShip();
+            }
             return true;
         }
         return true;
+    }
+    sinkShip () {
+        this.sunkShip += 1;
+        if (this.sunkShip === 5) {
+            this.finishGame()
+        }
+    }
+    finishGame () {
+        
     }
 }
